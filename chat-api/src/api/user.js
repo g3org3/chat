@@ -1,14 +1,21 @@
 // @ts-check
 import z from 'zod'
+import mongoClient from '../utils/mongoClient.js'
 
 export const input = z.object({ username: z.string() })
 
 /**
 * @param {z.infer<typeof input>} input
-* @returns {Promise<string>}
+* @returns {Promise<{ id: string }>}
 */
-export const handler = async (input) => {
-  console.log(input)
+export const handler = async ({ username }) => {
+  const client = await mongoClient
+  const result = await client.db("chatdb").collection("users").findOne({ username })
 
-  return ""
+  if (result) {
+    return { id: result._id.toString() }
+  }
+  const item = await client.db("chatdb").collection("users").insertOne({ username })
+
+  return { id: item.insertedId.toString() }
 }
