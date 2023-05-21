@@ -1,7 +1,10 @@
 
 export default function Text(props: { text: string }) {
+
   const linkRegex = /(https?:\/\/[^\s]+)/g;
   const mentionsRegex = /@(\w+)/g
+  const youtubeRegex = /(https:\/\/[^\?]+\?(\w+=\w+\&)*v=\w+)/g
+  const codeRegex = /v=(\w+)/g
 
   const splitText = props.text
     .split(linkRegex)
@@ -9,7 +12,17 @@ export default function Text(props: { text: string }) {
     .flat()
 
   const textFormatted = splitText.map((part, index) => {
-    if (part.match(linkRegex) && part.indexOf('https://emojis.slackmojis') === 0) {
+    if (part.match(youtubeRegex)) {
+      const code = [...part.matchAll(codeRegex)][0][1]
+      
+      return <iframe
+        width="280"
+        height="156"
+        src={"https://www.youtube.com/embed/" + code}
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" />
+    }
+    else if (part.match(linkRegex) && part.indexOf('https://emojis.slackmojis') === 0) {
       return (
         <img className="h-4 inline-block" src={part} />
       )

@@ -25,14 +25,14 @@ export default function Channel(props: { id: string }) {
     </div>
   }
 
-  return <div className='container mx-auto flex flex-1 gap-2 flex-col py-4'>
+  return <div className='container mx-auto flex flex-1 gap-2 flex-col py-4 overflow-auto'>
     <h1 className="text-3xl flex items-center">
       <span>Channels / {channel.name}</span>
       <div className="flex-1" />
       <button onClick={() => openChannel(null)} className="text-lg transition-all border border-purple-600 rounded px-4 text-purple-700 hover:bg-purple-100 active:bg-purple-200">close</button>
     </h1>
-    <div className="bg-white flex-1 flex flex-col px-3 pt-3">
-      <div className="flex flex-col flex-1 gap-1">
+    <div className="bg-white flex-1 flex flex-col px-3 pt-3 overflow-auto">
+      <div className="flex flex-col flex-1 gap-1 pb-4 overflow-auto">
         {messagesIds.map((id, i) => {
           const m = messagesById.get(id)
           const prevId = i > 0 ? messagesIds[i - 1] : null
@@ -66,7 +66,7 @@ export default function Channel(props: { id: string }) {
       </div>
       <div className="flex flex-col pb-4">
         <form onSubmit={onSubmit} className="flex">
-          <input name="message" className="flex-1 px-3 py-2 text-lg border-2 border-purple-700" placeholder="type your message..." />
+          <input name="message" className="rounded flex-1 px-3 py-2 text-lg border-2 border-purple-700" placeholder="type your message..." />
           <button type="submit" className="hidden">send</button>
         </form>
       </div>
