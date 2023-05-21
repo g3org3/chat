@@ -8,7 +8,7 @@ function App() {
   const username = useChatStore((store => store.username))
 
   return (
-    <main className="bg-gray-100 h-screen flex flex-col">
+    <main className="bg-gray-100 h-screen flex flex-col overflow-auto">
       <nav className="bg-white h-[48px] shadow flex flex-col">
         <div className='container mx-auto flex px-3 items-center gap-2 flex-1'>
           <img src={viteLogo} className="h-8" alt="Vite logo" />
@@ -22,7 +22,7 @@ function App() {
           )}
         </div>
       </nav>
-      <div className='flex-1 overflow-auto'>
+      <div className='flex-1 overflow-auto flex flex-col'>
         {username ? (
           <Channels />
         ) : (
