@@ -3,6 +3,7 @@ import { useChatStore } from './stores/mainStore'
 import viteLogo from '/logo.svg'
 
 function App() {
+  const setUsername = useChatStore((store => store.actions.setUsername))
   const username = useChatStore((store => store.username))
 
   return (
@@ -13,18 +14,24 @@ function App() {
           <span className="text-purple-800 text-lg font-bold">Chat App</span>
           <div className="flex-1" />
           {username && (
-            <span className="flex items-center gap-2 capitalize font-bold">
+            <button onClick={() => setUsername(null)} title="logout" className="flex items-center gap-2 capitalize font-bold hover:bg-slate-100 active:bg-slate-200 border border-transparent active:border-slate-500 px-4 py-1 rounded">
               <img className="h-9 bg-slate-100 rounded-full" src={"https://api.dicebear.com/6.x/pixel-art/svg?seed=" + username} />
               <span>{username}</span>
-            </span>
+            </button>
           )}
         </div>
       </nav>
       <div className='flex-1 overflow-auto'>
-        <div className='container mx-auto flex gap-2 flex-col items-center py-4'>
-          <h1 className="text-3xl">Please enter your username {username}</h1>
-          <UsernameInput />
-        </div>
+        {username ? (
+          <div className='container mx-auto flex gap-2 flex-col items-start py-4'>
+            <h1 className="text-3xl">Channels</h1>
+          </div>
+        ) : (
+          <div className='container mx-auto flex gap-2 flex-col items-center py-4'>
+            <h1 className="text-3xl">Please enter your username {username}</h1>
+            <UsernameInput />
+          </div>
+        )}
       </div>
     </main>
   )

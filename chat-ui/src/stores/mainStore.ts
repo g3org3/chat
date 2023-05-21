@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 interface ChatActions {
-  setUsername: (name: string) => void
+  setUsername: (name: string | null) => void
 }
 
 interface ChatState {
@@ -14,7 +14,7 @@ interface ChatStore extends ChatState {
 
 export const useChatStore = create<ChatStore>((set) => ({
   actions: {
-    setUsername: (username: string) => set({ username })
+    setUsername: (username) => set({ username })
   },
   username: null
 }))
