@@ -1,3 +1,4 @@
+import UsernameInput from './components/UsernameInput'
 import viteLogo from '/logo.svg'
 
 function App() {
@@ -9,6 +10,12 @@ function App() {
           <span className="text-purple-800 text-lg font-bold">Chat App</span>
         </div>
       </nav>
+      <div className='flex-1 overflow-auto'>
+        <div className='container mx-auto flex gap-2 flex-col items-center py-4'>
+          <h1 className="text-3xl">Please enter your username</h1>
+         <UsernameInput />
+        </div>
+      </div>
     </main>
   )
 }
