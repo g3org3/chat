@@ -1,23 +1,13 @@
-import { getFormData } from "../utils/form"
 import { useChatStore } from "../stores/mainStore"
 import Text from "./Text"
+import MessageInput from "./MessageInput"
 
 export default function Channel(props: { id: string }) {
   const openChannel = useChatStore(s => s.actions.openChannel)
-  const addMessage = useChatStore(s => s.actions.addMessage)
   const channelsById = useChatStore(s => s.channelsById)
   const messagesById = useChatStore(s => s.messagesById)
   const messagesIds = useChatStore(s => s.selectedMessageIds)
   const channel = channelsById.get(props.id)
-
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    const { message } = getFormData(e.target)
-    if (!message.value) return
-
-    addMessage(message.value)
-    message.element.value = ''
-  }
 
   if (!channel) {
     return <div>
@@ -65,10 +55,7 @@ export default function Channel(props: { id: string }) {
         })}
       </div>
       <div className="flex flex-col pb-4">
-        <form onSubmit={onSubmit} className="flex">
-          <input name="message" className="rounded flex-1 px-3 py-2 text-lg border-2 border-purple-700" placeholder="type your message..." />
-          <button type="submit" className="hidden">send</button>
-        </form>
+       <MessageInput /> 
       </div>
     </div>
   </div>
