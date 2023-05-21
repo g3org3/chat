@@ -1,6 +1,10 @@
 # chat
 basic chat app with nodejs and react
 
+## preview
+
+![][./app-screenshot.png]
+
 # Objectives
 
 - [x] (INFRA) init front with vitejs
@@ -14,3 +18,4 @@ basic chat app with nodejs and react
 - [ ] (UI) message input and show messages
 - [ ] (DB) configure mongo and client
 - [ ] (UI) add slack like emojis? *nice to have
+
