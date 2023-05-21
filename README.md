@@ -10,7 +10,7 @@ basic chat app with nodejs and react
 - [x] (INFRA) init front with vitejs
 - [x] (INFRa) add tailwindcss
 - [x] (UI) create navbar
-- [ ] (UI) add input to ask for username
+- [x] (UI) add input to ask for username
 - [ ] (INFRA) init back with express
 - [ ] (INFRA) configure proxy (to avoid cors issue)
 - [ ] (API) backend endpoint to get username and add it to default channel
