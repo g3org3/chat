@@ -1,3 +1,4 @@
+import Channels from './components/Channels'
 import UsernameInput from './components/UsernameInput'
 import { useChatStore } from './stores/mainStore'
 import viteLogo from '/logo.svg'
@@ -15,7 +16,7 @@ function App() {
           <div className="flex-1" />
           {username && (
             <button onClick={() => setUsername(null)} title="logout" className="flex items-center gap-2 capitalize font-bold hover:bg-slate-100 active:bg-slate-200 border border-transparent active:border-slate-500 px-4 py-1 rounded">
-              <img className="h-9 bg-slate-100 rounded-full" src={"https://api.dicebear.com/6.x/pixel-art/svg?seed=" + username} />
+              <img className="h-9 bg-slate-100 rounded-full" src={"https://api.dicebear.com/6.x/pixel-art/svg?skinColor=f5cfa0&seed=" + username} />
               <span>{username}</span>
             </button>
           )}
@@ -23,9 +24,7 @@ function App() {
       </nav>
       <div className='flex-1 overflow-auto'>
         {username ? (
-          <div className='container mx-auto flex gap-2 flex-col items-start py-4'>
-            <h1 className="text-3xl">Channels</h1>
-          </div>
+          <Channels />
         ) : (
           <div className='container mx-auto flex gap-2 flex-col items-center py-4'>
             <h1 className="text-3xl">Please enter your username {username}</h1>
