@@ -1,3 +1,4 @@
+import { useChatStore } from "../stores/mainStore"
 
 function getFormData(target: EventTarget) {
   const inputs = Array.from(target as never)
@@ -13,10 +14,13 @@ function getFormData(target: EventTarget) {
 }
 
 export default function UsernameInput() {
+  const setUsername = useChatStore((s) => s.actions.setUsername)
+
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     const form = getFormData(e.target)
-    console.log(form)
+    setUsername(form.username.value)
+    form.username.element.value = ''
   }
 
   return <form onSubmit={onSubmit}>
