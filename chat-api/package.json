@@ -1,0 +1,19 @@
+{
+  "name": "chat-api",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "build": "cd ../chat-ui && pnpm build && mv ./dist ../chat-api/ui-build"
+  },
+  "author": "George <7jagjag@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "express": "^4.18.2",
+    "zod": "^3.21.4"
+  }
+}
