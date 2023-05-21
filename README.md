@@ -3,7 +3,7 @@ basic chat app with nodejs and react
 
 ## preview
 
-![app-screenshot](https://github.com/g3org3/chat/assets/2175676/3126f015-665f-46c7-8cf7-d0cbdf525cd1)
+![app-screenshot](https://github.com/g3org3/chat/blob/main/app-screenshot.png?raw=true)
 
 # Objectives
 
