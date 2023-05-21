@@ -3,7 +3,8 @@ basic chat app with nodejs and react
 
 # Objectives
 
-- [ ] (INFRA) init front with vitejs
+- [x] (INFRA) init front with vitejs
+- [ ] (INFRa) add tailwindcss
 - [ ] (INFRA) init back with express
 - [ ] (INFRA) configure proxy (to avoid cors issue)
 - [ ] (UI) add input to ask for username
