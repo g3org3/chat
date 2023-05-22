@@ -17,7 +17,7 @@ export const handler = async ({ name, username }) => {
   if (result) {
     throw new Error("400|channel already exists.")
   }
-  const item = await db.users.insertOne({ name, username, createdAt: new Date() })
+  const item = await db.channels.insertOne({ name, username, createdAt: new Date() })
 
   return { id: item.insertedId.toString() }
 }

@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { v4 as uuid } from 'uuid'
 
 interface Message {
   id: string
@@ -15,9 +14,9 @@ interface Channel {
 
 interface ChatActions {
   setUsername: (name: string | null) => void
-  addChannel: (name: string) => void
+  addChannel: (name: string, id: string) => void
   openChannel: (id: string | null) => void
-  addMessage: (text: string) => void
+  addMessage: (text: string, id: string) => void
 }
 
 interface ChatState {
@@ -43,19 +42,18 @@ export const useChatStore = create<ChatStore>((set) => ({
       return { selectedChannel: id, selectedMessageIds: messageIds }
     }),
     setUsername: (username) => set({ username }),
-    addChannel: (name) => set(s => {
-      const id = uuid()
+    addChannel: (name, id) => set(s => {
       s.channelsById.set(id, { id, name })
 
       return {
         channelIds: s.channelIds.concat([id])
       }
     }),
-    addMessage: (text) => set(s => {
+    addMessage: (text, id) => set(s => {
       if (!s.username || !s.selectedChannel) return s
 
       const message = {
-        id: uuid(),
+        id,
         username: s.username,
         text,
         createdAt: (new Date()).toISOString(),
