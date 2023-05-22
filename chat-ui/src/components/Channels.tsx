@@ -23,23 +23,23 @@ export default function Channels() {
 
   // sockets to notify new messages in another channel
   useEffect(() => {
-    if (Notification && Notification.permission !== 'granted') {
-      Notification.requestPermission()
-    }
+    // if (Notification && Notification.permission !== 'granted') {
+    //   Notification.requestPermission()
+    // }
     ids.forEach(id => {
       const channel = channelsById.get(id)
       if (!channel) return
 
       socket.subscribe(id)
       socket.channel(id).bind('invalidate:messages', () => {
-        if (Notification) {
-          const options = {
-            body: `new message in ${channel.name}`,
-            image: 'https://api.dicebear.com/6.x/fun-emoji/png',
-            tag: `ch-${id}`,
-          }
-          new Notification('Notification', options)
-        }
+        // if (Notification) {
+        //   const options = {
+        //     body: `new message in ${channel.name}`,
+        //     image: 'https://api.dicebear.com/6.x/fun-emoji/png',
+        //     tag: `ch-${id}`,
+        //   }
+        //   new Notification('Notification', options)
+        // }
       })
     })
     return () => {
