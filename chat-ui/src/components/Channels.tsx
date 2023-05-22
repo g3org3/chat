@@ -35,16 +35,16 @@ export default function Channels() {
     </div>
   }
 
-  return <div className='container mx-auto flex gap-2 flex-col py-4'>
-    <h1 className="text-3xl flex items-center">
+  return <div className='container mx-auto flex gap-4 flex-col py-4 px-4'>
+    <h1 className="text-3xl flex items-center mb-6 mt-2">
       <span>Channels</span>
       <div className="flex-1" />
       <button onClick={() => setCreating(true)} className="text-lg transition-all border border-purple-600 rounded px-4 text-purple-700 hover:bg-purple-100 active:bg-purple-200">new</button>
     </h1>
     {ids.map(id => (
-      <button onClick={() => openChannel(id)} key={id} className="flex gap-2 items-center hover:bg-slate-50 transition-all bg-white shadow hover:underline active:bg-slate-100">
-        <img className="h-10" src={"https://api.dicebear.com/6.x/icons/svg?seed=" + channelsById.get(id)?.name} />
-        <span>{channelsById.get(id)?.name}</span>
+      <button onClick={() => openChannel(id)} key={id} className="flex gap-2 p-2 items-center hover:bg-slate-50 transition-all bg-white shadow hover:underline active:bg-slate-100">
+        <img className="h-12 rounded-full" src={"https://api.dicebear.com/6.x/icons/svg?seed=" + channelsById.get(id)?.name} />
+        <span className="text-2xl truncate">{channelsById.get(id)?.name}</span>
       </button>
     ))}
   </div>
