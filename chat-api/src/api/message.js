@@ -1,5 +1,6 @@
 // @ts-check
 import z from 'zod'
+import { ObjectId } from 'mongodb'
 import { db } from '../utils/mongoClient.js'
 
 export const input = z.object({
@@ -13,7 +14,7 @@ export const input = z.object({
 * @returns {Promise<{ id: string }>}
 */
 export const handler = async ({ channelId, username, text }) => {
-  const result = await db.channels.findOne({ id: channelId })
+  const result = await db.channels.findOne({ _id: new ObjectId(channelId) })
 
   if (!result) {
     throw new Error("400|channel does not exists.")
@@ -21,4 +22,13 @@ export const handler = async ({ channelId, username, text }) => {
   const item = await db.users.insertOne({ text, channelId, username, createdAt: new Date() })
 
   return { id: item.insertedId.toString() }
+}
+
+/**
+ * @param {{channelId: string}} input
+ */
+export const get = async ({ channelId }) => {
+  const result = db.messages.find({ channelId })
+
+  return result.toArray()
 }
