@@ -39,3 +39,29 @@ export const get = async ({ channelId }) => {
 
   return result.toArray()
 }
+
+
+export const putInput = z.object({
+  username: z.string(),
+  id: z.string(),
+  channelId: z.string(),
+  text: z.string(),
+})
+/**
+ * @param {z.infer<typeof putInput>} input
+ */
+export const put = async ({ id, username, channelId, text }) => {
+  const message = await db.messages.findOne({ _id: new ObjectId(id) })
+  if (!message) throw new Error('400|Message not found')
+  if (message.username !== username) throw new Error('403|You cannot edit this message')
+
+  await db.messages.updateOne({ _id: new ObjectId(id) }, { $set: { text } })
+
+  try {
+    socket.trigger(channelId, 'invalidate:messages', 'all')
+  } catch (e) {
+    console.log(e)
+  }
+
+  return {}
+}

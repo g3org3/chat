@@ -54,6 +54,15 @@ export default function setupApi(app) {
       .then(r => res.status(200).json(r))
       .catch(handleError(res))
   })
+
+  app.post('/api/message/edit', (req, res) => {
+    console.log('[PUT]', req.path)
+    apimessage.putInput
+      .parseAsync(req.body)
+      .then(payload => apimessage.put(payload))
+      .then(r => res.status(200).json(r))
+      .catch(handleError(res))
+  })
 }
 
 

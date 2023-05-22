@@ -1,13 +1,13 @@
 import { create } from 'zustand'
 
-interface Message {
+export interface Message {
   _id: string
   text: string
   username: string
   createdAt: string
 }
 
-interface Channel {
+export interface Channel {
   _id: string
   name: string
   username: string
