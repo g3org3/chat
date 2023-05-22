@@ -7,7 +7,7 @@ if (!process.env.DATABASE_URL) {
 
 const uri = process.env.DATABASE_URL;
 const options = {};
-console.log('mongodb', uri)
+// console.log('mongodb', uri)
 
 let client;
 /** @type{Promise<MongoClient>} */

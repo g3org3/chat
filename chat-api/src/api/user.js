@@ -20,9 +20,7 @@ export const handler = async ({ username }, req) => {
     throw Error('something is really wrong')
   }
   const id = user._id.toString()
-
-    req.session.userId = id
-    console.log(req.session)
+  req.session.userId = id
 
   return { id }
 }

@@ -16,6 +16,7 @@ export default function Text(props: { text: string }) {
       const code = [...part.matchAll(codeRegex)][0][1]
       
       return <iframe
+        key={index}
         width="280"
         height="156"
         src={"https://www.youtube.com/embed/" + code}
@@ -24,7 +25,7 @@ export default function Text(props: { text: string }) {
     }
     else if (part.match(linkRegex) && part.indexOf('https://emojis.slackmojis') === 0) {
       return (
-        <img className="h-4 inline-block" src={part} />
+        <img key={index} className="h-4 inline-block" src={part} />
       )
     } else if (part.match(linkRegex)) {
       return (

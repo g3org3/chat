@@ -10,7 +10,6 @@ import { ZodError } from 'zod'
 export default function setupApi(app) {
   app.get('/api/user/me', (req, res) => {
     console.log('[GET]', req.path)
-    console.log(req.session)
     apiuser.get({ userId: req.session?.userId })
       .then(r => res.status(200).json(r))
       .catch(handleError(res))

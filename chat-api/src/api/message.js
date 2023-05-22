@@ -1,7 +1,9 @@
 // @ts-check
 import z from 'zod'
 import { ObjectId } from 'mongodb'
+
 import { db } from '../utils/mongoClient.js'
+import { socket } from '../utils/pusher.js'
 
 export const input = z.object({
   channelId: z.string(),
@@ -20,6 +22,7 @@ export const handler = async ({ channelId, username, text }) => {
     throw new Error("400|channel does not exists.")
   }
   const item = await db.messages.insertOne({ text, channelId, username, createdAt: new Date() })
+  socket.trigger(channelId, 'invalidate:messages', 'all')
 
   return { id: item.insertedId.toString() }
 }

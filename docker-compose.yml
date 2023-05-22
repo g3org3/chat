@@ -10,3 +10,10 @@ services:
       MONGO_INITDB_DATABASE: chatdb
     volumes:
       - ./.db-data:/data/db
+  sockets:
+    image: quay.io/soketi/soketi:latest-16-alpine
+    ports:
+      - 6001:6001
+    #   - 9601:9601
+    # environment:
+    #   SOKETI_DEBUG: "1"
