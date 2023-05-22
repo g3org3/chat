@@ -25,11 +25,11 @@ export default function Channel(props: { id: string }) {
     </div>
   }
 
-  return <div className='container mx-auto flex flex-1 gap-2 flex-col py-4 overflow-auto'>
-    <h1 className="text-3xl flex items-center">
-      <span>Channels / {channel.name}</span>
-      <div className="flex-1" />
-      <button onClick={() => openChannel(null)} className="text-lg transition-all border border-purple-600 rounded px-4 text-purple-700 hover:bg-purple-100 active:bg-purple-200">close</button>
+  return <div className='container mx-auto flex flex-1 gap-2 flex-col py-2 overflow-auto'>
+    <h1 className="text-3xl flex items-center bg-white p-2 gap-2">
+      <button onClick={() => openChannel(null)} className="text-sm transition-all border border-purple-600 rounded px-2 text-purple-700 hover:bg-purple-100 active:bg-purple-200">close</button>
+        <img className="h-10" src={"https://api.dicebear.com/6.x/icons/svg?seed=" + channel.name} />
+      <span>{channel.name}</span>
     </h1>
     <div className="bg-white flex-1 flex flex-col px-3 pt-3 overflow-auto">
       <div className="flex flex-col flex-1 gap-1 pb-4 overflow-auto">

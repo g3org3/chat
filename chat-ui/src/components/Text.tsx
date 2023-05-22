@@ -2,7 +2,7 @@
 export default function Text(props: { text: string }) {
 
   const linkRegex = /(https?:\/\/[^\s]+)/g;
-  const mentionsRegex = /@(\w+)/g
+  const mentionsRegex = /(@\w+)/g
   const youtubeRegex = /(https:\/\/[^\?]+\?(\w+=\w+\&)*v=\w+)/g
   const codeRegex = /v=(\w+)/g
 
@@ -34,7 +34,7 @@ export default function Text(props: { text: string }) {
       )
     } else if (part.match(mentionsRegex)) {
       return (
-        <b key={index} className="font-bold">
+        <b key={index} className="font-bold text-purple-800">
           {part}
         </b>
       )
