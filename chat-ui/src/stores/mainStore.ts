@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 
 interface Message {
-  id: string
+  _id: string
   text: string
   username: string
   createdAt: string
@@ -20,6 +20,7 @@ interface ChatActions {
   openChannel: (id: string | null) => void
   addMessage: (text: string, id: string) => void
   setChannels: (channels: Channel[]) => void
+  setActiveMessages: (messages: Message[]) => void
 }
 
 interface ChatState {
@@ -69,17 +70,32 @@ export const useChatStore = create<ChatStore>((set) => ({
       if (!s.username || !s.selectedChannel) return s
 
       const message = {
-        id,
+        _id: id,
         username: s.username,
         text,
         createdAt: (new Date()).toISOString(),
       }
 
-      s.messagesById.set(message.id, message)
-      const messageIds = s.selectedMessageIds.concat([message.id])
+      s.messagesById.set(id, message)
+      const messageIds = s.selectedMessageIds.concat([id])
       s.messageIdsByChannelId.set(s.selectedChannel, messageIds)
 
       return {
+        selectedMessageIds: messageIds,
+      }
+    }),
+    setActiveMessages: (messages) => set(s => {
+      if (!s.selectedChannel) return s
+
+      const messagesById = new Map()
+      messages.forEach(message => {
+        messagesById.set(message._id, message)
+      })
+      const messageIds = messages.map(x => x._id)
+      s.messageIdsByChannelId.set(s.selectedChannel, messageIds)
+    
+      return {
+        messagesById,
         selectedMessageIds: messageIds,
       }
     }),

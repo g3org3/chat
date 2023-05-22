@@ -1,8 +1,18 @@
 import { useChatStore } from "../stores/mainStore"
 import Text from "./Text"
 import MessageInput from "./MessageInput"
+import { useQuery } from "@tanstack/react-query"
+import { api } from "../utils/api"
 
 export default function Channel(props: { id: string }) {
+  const setActiveMessages = useChatStore(s => s.actions.setActiveMessages)
+  useQuery({
+    queryKey: ['messages'],
+    queryFn: () => api(`/api/channel/${props.id}/message`),
+    onSuccess: (messages) => {
+      setActiveMessages(messages as never)
+    }
+  })
   const openChannel = useChatStore(s => s.actions.openChannel)
   const channelsById = useChatStore(s => s.channelsById)
   const messagesById = useChatStore(s => s.messagesById)
@@ -38,14 +48,14 @@ export default function Channel(props: { id: string }) {
                 <img className="h-9 bg-slate-100 rounded-full" src={"https://api.dicebear.com/6.x/pixel-art/svg?skinColor=f5cfa0&seed=" + m.username} />
               ) : (
                 <div className="w-9 font-mono transition-all text-xs flex items-center text-transparent group-hover/message:text-gray-400">
-                  {d.getHours()}:{`${d.getMinutes()}`.padStart(2, '0')}
+                  {`${d.getHours()}`.padStart(2, '0')}:{`${d.getMinutes()}`.padStart(2, '0')}
                 </div>
               )}
               <div className="flex flex-col flex-1">
                 {isDiff && (
                   <div className="flex gap-2 items-center">
                     <span className="font-bold text-lg">{m.username}</span>
-                    <span className="text-gray-400 font-mono text-xs">{d.getHours()}:{`${d.getMinutes()}`.padStart(2, '0')}</span>
+                    <span className="text-gray-400 font-mono text-xs">{`${d.getHours()}`.padStart(2, '0')}:{`${d.getMinutes()}`.padStart(2, '0')}</span>
                   </div>
                 )}
                 <Text text={m.text} />
@@ -55,7 +65,7 @@ export default function Channel(props: { id: string }) {
         })}
       </div>
       <div className="flex flex-col pb-4">
-       <MessageInput /> 
+        <MessageInput />
       </div>
     </div>
   </div>

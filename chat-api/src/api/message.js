@@ -19,7 +19,7 @@ export const handler = async ({ channelId, username, text }) => {
   if (!result) {
     throw new Error("400|channel does not exists.")
   }
-  const item = await db.users.insertOne({ text, channelId, username, createdAt: new Date() })
+  const item = await db.messages.insertOne({ text, channelId, username, createdAt: new Date() })
 
   return { id: item.insertedId.toString() }
 }
