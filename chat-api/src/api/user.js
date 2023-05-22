@@ -1,6 +1,6 @@
 // @ts-check
 import z from 'zod'
-import mongoClient from '../utils/mongoClient.js'
+import { db } from '../utils/mongoClient.js'
 
 export const input = z.object({ username: z.string() })
 
@@ -9,13 +9,12 @@ export const input = z.object({ username: z.string() })
 * @returns {Promise<{ id: string }>}
 */
 export const handler = async ({ username }) => {
-  const client = await mongoClient
-  const result = await client.db("chatdb").collection("users").findOne({ username })
+  const result = await db.users.findOne({ username })
 
   if (result) {
     return { id: result._id.toString() }
   }
-  const item = await client.db("chatdb").collection("users").insertOne({ username })
+  const item = await db.users.insertOne({ username, createdAt: new Date() })
 
   return { id: item.insertedId.toString() }
 }
