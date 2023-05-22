@@ -1,15 +1,16 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useChatStore } from "../stores/mainStore"
 import ChannelInput from "./ChannelInput"
 import Channel from "./Channel"
 import { api } from "../utils/api"
+import { socket } from "../utils/sockets"
 
 export default function Channels() {
   const setChannels = useChatStore(s => s.actions.setChannels)
   const { isLoading } = useQuery({
     queryKey: ['channels'],
-    queryFn: () => api('/api/channel'), 
+    queryFn: () => api('/api/channel'),
     onSuccess: (channels) => {
       setChannels(channels as never) // bad part of not using TRPC or orval
     }
@@ -19,6 +20,32 @@ export default function Channels() {
   const ids = useChatStore(s => s.channelIds)
   const selectedChannel = useChatStore(s => s.selectedChannel)
   const openChannel = useChatStore(s => s.actions.openChannel)
+
+  // sockets to notify new messages in another channel
+  useEffect(() => {
+    if (Notification && Notification.permission !== 'granted') {
+      Notification.requestPermission()
+    }
+    ids.forEach(id => {
+      const channel = channelsById.get(id)
+      if (!channel) return
+
+      socket.subscribe(id)
+      socket.channel(id).bind('invalidate:messages', () => {
+        if (Notification) {
+          const options = {
+            body: `new message in ${channel.name}`,
+            image: 'https://api.dicebear.com/6.x/fun-emoji/png',
+            tag: `ch-${id}`,
+          }
+          new Notification('Notification', options)
+        }
+      })
+    })
+    return () => {
+      ids.forEach(id => socket.unsubscribe(id))
+    }
+  }, [ids])
 
   if (isLoading) {
     return <div>loading</div>

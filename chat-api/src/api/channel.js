@@ -23,7 +23,5 @@ export const handler = async ({ name, username }) => {
 }
 
 export const get = async () => {
-  const result = db.channels.find()
-
-  return result.toArray()
+  return db.channels.find().toArray()
 }
