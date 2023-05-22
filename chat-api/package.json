@@ -7,7 +7,7 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "node src/server.js",
-    "build": "cd ../chat-ui && pnpm i && pnpm build && mv ./dist ../chat-api/ui-build"
+    "start": "node src/server.js"
   },
   "author": "George <7jagjag@gmail.com>",
   "license": "MIT",
