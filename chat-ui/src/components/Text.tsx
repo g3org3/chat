@@ -45,7 +45,7 @@ export default function Text(props: { text: string }) {
   })
 
   return (
-    <p className="text-gray-800 text-sm">
+    <p className="text-gray-800">
       {textFormatted}
     </p>
   )

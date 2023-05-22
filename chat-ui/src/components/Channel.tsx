@@ -11,22 +11,24 @@ export default function Channel(props: { id: string }) {
   const setActiveMessages = useChatStore(s => s.actions.setActiveMessages)
   const messagesRef = useRef<HTMLDivElement>(null)
   const { refetch } = useQuery({
-    queryKey: [`/api/channel/${props.id}/message`],
+    queryKey: ['messages', `/api/channel/${props.id}/message`],
     queryFn: () => api(`/api/channel/${props.id}/message`),
     onSuccess: (messages) => {
       setActiveMessages(messages as never)
-      setTimeout(() => {
-        if (messagesRef.current) {
-          messagesRef.current.scrollTop = messagesRef.current.scrollHeight
-        }
-      }, 200)
     }
   })
+ 
   const openChannel = useChatStore(s => s.actions.openChannel)
   const channelsById = useChatStore(s => s.channelsById)
   const messagesById = useChatStore(s => s.messagesById)
   const messagesIds = useChatStore(s => s.selectedMessageIds)
   const channel = channelsById.get(props.id)
+
+useEffect(() => {
+    if (!messagesRef.current) return
+    messagesRef.current.scrollTop = messagesRef.current.scrollHeight
+  }, [messagesIds])
+
 
   useEffect(() => {
     socket.subscribe(props.id)
@@ -65,11 +67,11 @@ export default function Channel(props: { id: string }) {
           const d = new Date(m.createdAt)
 
           return (
-            <div key={id} className="flex gap-2 items-center group/message">
+            <div key={id} className="flex gap-2 items-center group/message hover:bg-gray-50 transition-all pl-2">
               {isDiff ? (
                 <img className="h-9 bg-slate-100 rounded-full" src={"https://api.dicebear.com/6.x/pixel-art/svg?skinColor=f5cfa0&seed=" + m.username} />
               ) : (
-                <div className="w-9 font-mono transition-all text-xs flex items-center text-transparent group-hover/message:text-gray-400">
+                <div title={d.toLocaleDateString()} className="w-9 font-mono transition-all text-xs flex items-center text-transparent group-hover/message:text-gray-400">
                   {`${d.getHours()}`.padStart(2, '0')}:{`${d.getMinutes()}`.padStart(2, '0')}
                 </div>
               )}
@@ -77,7 +79,7 @@ export default function Channel(props: { id: string }) {
                 {isDiff && (
                   <div className="flex gap-2 items-center">
                     <span className="font-bold text-lg">{m.username}</span>
-                    <span className="text-gray-400 font-mono text-xs">{`${d.getHours()}`.padStart(2, '0')}:{`${d.getMinutes()}`.padStart(2, '0')}</span>
+                    <span title={d.toLocaleDateString()} className="text-gray-400 font-mono text-xs">{`${d.getHours()}`.padStart(2, '0')}:{`${d.getMinutes()}`.padStart(2, '0')}</span>
                   </div>
                 )}
                 <Text text={m.text} />
