@@ -8,8 +8,10 @@ interface Message {
 }
 
 interface Channel {
-  id: string
+  _id: string
   name: string
+  username: string
+  createdAt: string
 }
 
 interface ChatActions {
@@ -17,6 +19,7 @@ interface ChatActions {
   addChannel: (name: string, id: string) => void
   openChannel: (id: string | null) => void
   addMessage: (text: string, id: string) => void
+  setChannels: (channels: Channel[]) => void
 }
 
 interface ChatState {
@@ -42,8 +45,21 @@ export const useChatStore = create<ChatStore>((set) => ({
       return { selectedChannel: id, selectedMessageIds: messageIds }
     }),
     setUsername: (username) => set({ username }),
+    setChannels: (channels) => set(_ => {
+      const channelsById = new Map()
+      channels.forEach(channel => {
+        channelsById.set(channel._id, channel)
+      })
+    
+      return {
+        channelsById,
+        channelIds: channels.map(x => x._id)
+      }
+    }),
     addChannel: (name, id) => set(s => {
-      s.channelsById.set(id, { id, name })
+      if (!s.username) return s
+
+      s.channelsById.set(id, { _id: id, name, username: s.username, createdAt: (new Date()).toISOString() })
 
       return {
         channelIds: s.channelIds.concat([id])

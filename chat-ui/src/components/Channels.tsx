@@ -1,17 +1,31 @@
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { useChatStore } from "../stores/mainStore"
 import ChannelInput from "./ChannelInput"
 import Channel from "./Channel"
+import { api } from "../utils/api"
 
 export default function Channels() {
+  const setChannels = useChatStore(s => s.actions.setChannels)
+  const { isLoading } = useQuery({
+    queryKey: ['channels'],
+    queryFn: () => api('/api/channel'), 
+    onSuccess: (channels) => {
+      setChannels(channels as never) // bad part of not using TRPC or orval
+    }
+  })
   const [isCreating, setCreating] = useState(false)
   const channelsById = useChatStore(s => s.channelsById)
   const ids = useChatStore(s => s.channelIds)
   const selectedChannel = useChatStore(s => s.selectedChannel)
   const openChannel = useChatStore(s => s.actions.openChannel)
 
+  if (isLoading) {
+    return <div>loading</div>
+  }
+
   if (selectedChannel) {
-    return <Channel id={selectedChannel} /> 
+    return <Channel id={selectedChannel} />
   }
 
   if (ids.length === 0 || isCreating) {

@@ -13,24 +13,13 @@ export default function setupApi(app) {
       .parseAsync(req.body)
       .then(payload => apiuser.handler(payload))
       .then(r => res.status(200).json(r))
-      .catch((e) => {
-        if (e instanceof ZodError) {
-          console.log('[ERROR]', e.name, e.issues)
-          res.status(400).json({ status: 'badrequest', issues: e.issues })
-        } else {
-          let status = 500
-          let message = e.message
-          const parts = message.split('|')
-          
-          if (parts.length === 2) {
-            status = parts[0]
-            message = parts[1]
-          }
+      .catch(handleError)
+  })
 
-          console.error('[ERROR]', status, e.message)
-          res.status(status).json({ status: 'error', message: e.message })
-        }
-      })
+  app.get('/api/channel', (_, res) => {
+    apichannel.get()
+      .then(r => res.status(200).json(r))
+      .catch(handleError)
   })
 
   app.post('/api/channel', (req, res) => {
@@ -39,26 +28,7 @@ export default function setupApi(app) {
       .parseAsync(req.body)
       .then(payload => apichannel.handler(payload))
       .then(r => res.status(200).json(r))
-      .catch((e) => {
-        if (e instanceof ZodError) {
-          console.log('[ERROR]', e.name, e.issues)
-          res.status(400).json({ status: 'badrequest', issues: e.issues })
-        } else {
-          let status = 500
-          let message = e.message
-          let type = 'internal-error'
-          const parts = message.split('|')
-          
-          if (parts.length === 2) {
-            status = Number(parts[0])
-            message = parts[1]
-            type = 'custom'
-          }
-
-          console.error('[ERROR]', status, message)
-          res.status(status).json({ type, status, message: message })
-        }
-      })
+      .catch(handleError)
   })
 
   app.post('/api/message', (req, res) => {
@@ -67,23 +37,25 @@ export default function setupApi(app) {
       .parseAsync(req.body)
       .then(payload => apimessage.handler(payload))
       .then(r => res.status(200).json(r))
-      .catch((e) => {
-        if (e instanceof ZodError) {
-          console.log('[ERROR]', e.name, e.issues)
-          res.status(400).json({ status: 'badrequest', issues: e.issues })
-        } else {
-          let status = 500
-          let message = e.message
-          const parts = message.split('|')
-          
-          if (parts.length === 2) {
-            status = Number(parts[0])
-            message = parts[1]
-          }
-
-          console.error('[ERROR]', status, e.message)
-          res.status(status).json({ status: 'error', message: e.message })
-        }
-      })
+      .catch(handleError)
   })
+}
+
+function handleError(e) {
+  if (e instanceof ZodError) {
+    console.log('[ERROR]', e.name, e.issues)
+    res.status(400).json({ status: 'badrequest', issues: e.issues })
+  } else {
+    let status = 500
+    let message = e.message
+    const parts = message.split('|')
+
+    if (parts.length === 2) {
+      status = Number(parts[0])
+      message = parts[1]
+    }
+
+    console.error('[ERROR]', status, e.message)
+    res.status(status).json({ status: 'error', message: e.message })
+  }
 }

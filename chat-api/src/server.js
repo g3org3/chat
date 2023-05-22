@@ -12,15 +12,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+setupApi(app)
+
 // Serve static files from the 'build' directory
 app.use(express.static(path.join(__dirname, '../ui-build')));
 
 // Serve the React app for all routes
-app.get('*', (req, res) => {
+app.get('*', (_, res) => {
   res.sendFile(path.join(__dirname, '../build-ui', 'index.html'));
 });
-
-setupApi(app)
 
 // Start the server
 const port = process.env.PORT || 3030;

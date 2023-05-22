@@ -21,3 +21,9 @@ export const handler = async ({ name, username }) => {
 
   return { id: item.insertedId.toString() }
 }
+
+export const get = async () => {
+  const result = db.channels.find()
+
+  return result.toArray()
+}
