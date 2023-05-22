@@ -8,16 +8,25 @@ import { ZodError } from 'zod'
 * @param {import("express").Express} app
 */
 export default function setupApi(app) {
-  app.post('/api/user', (req, res) => {
-    console.log('[POST]', req.path)
-    apiuser.input
-      .parseAsync(req.body)
-      .then(payload => apiuser.handler(payload))
+  app.get('/api/user/me', (req, res) => {
+    console.log('[GET]', req.path)
+    console.log(req.session)
+    apiuser.get({ userId: req.session?.userId })
       .then(r => res.status(200).json(r))
       .catch(handleError(res))
   })
 
-  app.get('/api/channel', (_, res) => {
+  app.post('/api/user', (req, res) => {
+    console.log('[POST]', req.path)
+    apiuser.input
+      .parseAsync(req.body)
+      .then(payload => apiuser.handler(payload, req))
+      .then(r => res.status(200).json(r))
+      .catch(handleError(res))
+  })
+
+  app.get('/api/channel', (req, res) => {
+    console.log('[GET]', req.path)
     apichannel.get()
       .then(r => res.status(200).json(r))
       .catch(handleError(res))

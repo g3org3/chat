@@ -4,9 +4,18 @@ import Channels from './components/Channels'
 import UsernameInput from './components/UsernameInput'
 import { useChatStore } from './stores/mainStore'
 import viteLogo from '/logo.svg'
+import { useQuery } from '@tanstack/react-query'
+import { api } from './utils/api'
 
 function App() {
   const setUsername = useChatStore((store => store.actions.setUsername))
+  useQuery({
+    queryKey: ['users'],
+    queryFn: () => api('/api/user/me'),
+    onSuccess: (user) => {
+      setUsername(user.username as never)
+    }
+  })
   const username = useChatStore((store => store.username))
 
   return (
