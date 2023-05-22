@@ -11,11 +11,12 @@ basic chat app with nodejs and react
 - [x] (INFRa) add tailwindcss
 - [x] (UI) create navbar
 - [x] (UI) add input to ask for username
-- [ ] (INFRA) init back with express
-- [ ] (INFRA) configure proxy (to avoid cors issue)
-- [ ] (API) backend endpoint to get username and add it to default channel
-- [ ] (API) endpoint to fetch messages
-- [ ] (UI) message input and show messages
-- [ ] (DB) configure mongo and client
-- [ ] (UI) add slack like emojis? *nice to have
+- [x] (INFRA) init back with express
+- [x] (INFRA) configure proxy (to avoid cors issue)
+- [x] (API) backend endpoint to get username and add it to default channel
+- [x] (API) endpoint to fetch messages
+- [x] (UI) message input and show messages
+- [x] (DB) configure mongo and client
+- [x] (UI) add slack like emojis? *nice to have
+- [ ] (API/UI) edit messages
 
