@@ -22,7 +22,11 @@ export const handler = async ({ channelId, username, text }) => {
     throw new Error("400|channel does not exists.")
   }
   const item = await db.messages.insertOne({ text, channelId, username, createdAt: new Date() })
-  socket.trigger(channelId, 'invalidate:messages', 'all')
+  try {
+    socket.trigger(channelId, 'invalidate:messages', 'all')
+  } catch (e) {
+    console.log(e)
+  }
 
   return { id: item.insertedId.toString() }
 }
